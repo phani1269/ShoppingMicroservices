@@ -14,7 +14,17 @@ services:
     volumes:
       - sqlvolume:/var/opt/mssql/data
 
- 
+  jwtdb:
+    container_name: jwtdb
+    environment:
+        MSSQL_SA_PASSWORD: "SwN12345678"
+        ACCEPT_EULA: "Y"
+
+    restart: always
+    ports:
+        - "1439:1433"    
+    volumes:
+      - JWTvolume:/var/opt/mssql/data
 
   angularauthapi:
     container_name: angularauthapi
@@ -25,3 +35,55 @@ services:
       - apidb
     ports:
       - "8011:80"
+
+  tokenbaseduserapi:
+    container_name: tokenbaseduserapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=jwtdb;Database=JWTDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - jwtdb
+    ports:
+      - "8012:80"
+
+
+
+  product.api:
+    container_name: product.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=ProductDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8013:80"
+
+  shoppingcart.api:
+    container_name: shoppingcart.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=CartDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8014:80"
+
+  payment.api:
+    container_name: payment.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=PaymentDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8015:80"
+
+  order.api:
+    container_name: order.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=OrderDetailsDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8016:80"

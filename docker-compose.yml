@@ -5,6 +5,9 @@ services:
   apidb:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
+  jwtdb:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+
 
   angularauthapi:
     image: ${DOCKER_REGISTRY-}angularauthapi
@@ -12,5 +15,40 @@ services:
       context: .
       dockerfile: AngularAuthAPI/Dockerfile
 
+  tokenbaseduserapi:
+    image: ${DOCKER_REGISTRY-}tokenbaseduserapi
+    build:
+      context: .
+      dockerfile: TokenBasedUserAPI/Dockerfile
+
+  product.api:
+    image: ${DOCKER_REGISTRY-}productapi
+    build:
+      context: .
+      dockerfile: Product.API/Dockerfile
+
+  shoppingcart.api:
+    image: ${DOCKER_REGISTRY-}shoppingcartapi
+    build:
+      context: .
+      dockerfile: ShoppingCart.API/Dockerfile
+
+  payment.api:
+    image: ${DOCKER_REGISTRY-}paymentapi
+    build:
+      context: .
+      dockerfile: Payment.API/Dockerfile
+
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Order.API/Dockerfile
+
 volumes:
   sqlvolume:
+  JWTvolume:
+
+
+
+
