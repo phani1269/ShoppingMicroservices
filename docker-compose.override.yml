@@ -60,8 +60,8 @@ services:
     ports:
       - "8014:80"
 
-  couponservice:
-    container_name: couponservice
+  couponservice.api:
+    container_name: couponservice.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=CouponDb; User Id= SA ;Password= SwN12345678"
@@ -69,6 +69,7 @@ services:
       - apidb
     ports:
       - "8015:80"
+
 
   order.api:
     container_name: order.api
@@ -107,9 +108,11 @@ services:
     depends_on:
       - product.api
       - shoppingcart.api
-      - couponservice
+      - couponservice.api
       - order.api
       - payment.api
       - reviews.api
     ports:
       - "8020:80"
+
+

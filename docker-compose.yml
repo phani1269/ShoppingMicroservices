@@ -40,11 +40,12 @@ services:
       context: .
       dockerfile: Order.API/Dockerfile
 
-  couponservice:
-    image: ${DOCKER_REGISTRY-}couponservice
+  couponservice.api:
+    image: ${DOCKER_REGISTRY-}couponserviceapi
     build:
       context: .
-      dockerfile: CouponService/Dockerfile
+      dockerfile: CouponService.API/Dockerfile
+
 
   reviews.api:
     image: ${DOCKER_REGISTRY-}reviewsapi
@@ -58,9 +59,12 @@ services:
       context: .
       dockerfile: APIGateway/Ocelot.APIGateway/Dockerfile
 
+
+
 volumes:
   sqlvolume:
   JWTvolume:
+
 
 
 
