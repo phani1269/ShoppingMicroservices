@@ -9,8 +9,9 @@ namespace Payment.API.Models
     public class Payments
     {
         [Key]
-        public int Id { get; set; }
-        public string UserName { get; set; } 
+        public int PaymentId { get; set; }
+        public string UserName { get; set; }
+        public int orderId { get; set; }
         public int TotalAmount { get; set; }
         public int ShipingCharges { get; set; }
         public int AmountReduced { get; set; }

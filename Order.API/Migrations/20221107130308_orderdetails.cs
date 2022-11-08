@@ -2,7 +2,7 @@
 
 namespace Order.API.Migrations
 {
-    public partial class ordercontext : Migration
+    public partial class orderdetails : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,7 @@ namespace Order.API.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobileNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PaymentId = table.Column<int>(type: "int", nullable: false),
+                    PaymentConfirmation = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

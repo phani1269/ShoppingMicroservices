@@ -9,11 +9,6 @@ services:
     image: mcr.microsoft.com/mssql/server:2017-latest
 
 
-  angularauthapi:
-    image: ${DOCKER_REGISTRY-}angularauthapi
-    build:
-      context: .
-      dockerfile: AngularAuthAPI/Dockerfile
 
   tokenbaseduserapi:
     image: ${DOCKER_REGISTRY-}tokenbaseduserapi
@@ -45,9 +40,30 @@ services:
       context: .
       dockerfile: Order.API/Dockerfile
 
+  couponservice:
+    image: ${DOCKER_REGISTRY-}couponservice
+    build:
+      context: .
+      dockerfile: CouponService/Dockerfile
+
+  reviews.api:
+    image: ${DOCKER_REGISTRY-}reviewsapi
+    build:
+      context: .
+      dockerfile: Reviews.API/Dockerfile
+
+  ocelot.apigateway:
+    image: ${DOCKER_REGISTRY-}ocelotapigateway
+    build:
+      context: .
+      dockerfile: APIGateway/Ocelot.APIGateway/Dockerfile
+
 volumes:
   sqlvolume:
   JWTvolume:
+
+
+
 
 
 

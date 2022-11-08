@@ -2,7 +2,7 @@
 
 namespace Payment.API.Migrations
 {
-    public partial class Paymentcontext : Migration
+    public partial class updated2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

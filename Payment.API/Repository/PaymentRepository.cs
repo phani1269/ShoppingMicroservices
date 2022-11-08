@@ -1,5 +1,4 @@
 ﻿using Payment.API.Context;
-using Payment.API.Migrations;
 using Payment.API.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +30,8 @@ namespace Payment.API.Repository
                         select new joinClass
                         {
                             UserName = a.UserName,
-                            Id = a.Id,
+                            PaymentId = a.PaymentId,
+                            orderId = a.orderId,
                             PaymentMethodId = b.PaymentMethodId,
                             AmountPaid = a.AmountPaid,
                             AmountReduced = a.AmountReduced,
@@ -46,9 +46,44 @@ namespace Payment.API.Repository
             return list;
 
         }
+        public IQueryable<joinClass> GetOrderdPayment(string username,int orderId)
+        {
+            var list = (from a in _paymentcontext.payments
+                        join b in _paymentcontext.paymentMethods on a.PaymentMethodId equals b.PaymentMethodId
+                        where a.UserName == username && a.orderId ==orderId
+                        select new joinClass
+                        {
+                            UserName = a.UserName,
+                            PaymentId = a.PaymentId,
+                            orderId = a.orderId,
+                            PaymentMethodId = b.PaymentMethodId,
+                            AmountPaid = a.AmountPaid,
+                            AmountReduced = a.AmountReduced,
+                            ShipingCharges = a.ShipingCharges,
+                            TotalAmount = a.TotalAmount,
+                            Type = b.Type,
+                            CreatedAt = a.CreatedAt,
+                            Provider = b.Provider,
+                            Reason = b.Reason,
+
+                        });
+            return list;
+
+        }
 
         public bool InsertPayment(Payments payments)
         {
+            payments = new Payments
+            {
+                CreatedAt = DateTime.UtcNow.ToString("dd/MMMM/yyyy hh:mm:ss"),
+                UserName = payments.UserName,
+                PaymentMethodId = payments.PaymentMethodId,
+                AmountPaid = payments.AmountPaid,
+                AmountReduced = payments.AmountReduced,
+                ShipingCharges=payments.ShipingCharges,
+                TotalAmount = payments.TotalAmount,
+                orderId = payments.orderId
+            };
             _paymentcontext.payments.Add(payments);
             _paymentcontext.SaveChanges();
             return true;

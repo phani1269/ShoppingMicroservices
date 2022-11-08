@@ -15,7 +15,9 @@ namespace Order.API.Models
         public string Email { get; set; }
         public string MobileNumber { get; set; }
         public string Address { get; set; }
-        public int PaymentId { get; set; }
+     //   public int PaymentId { get; set; }
+        public bool PaymentConfirmation { get; set; }
+
         public string CreatedAt { get; set; } = DateTime.UtcNow.ToString("dd MMMM yyyy hh mm ss");
         public int ItemsId { get; set; }
         public string ProductName { get; set; }

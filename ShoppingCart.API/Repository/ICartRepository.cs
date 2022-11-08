@@ -8,11 +8,10 @@ namespace ShoppingCart.API.Repository
 {
     public interface ICartRepository
     {
-        bool InsertCartItem(CartList model, int productId);
-        List<joinclass> GetCart(int cartid);
-        List<joinclass> GetAllPreviousCartsOfUser(string userName);
 
-        bool DeleteCart(int CartId);
+        List<joinclass> GetCartByUsername(string userName);
+        bool AddCartItem(string userName, CartItems cartItems, int productId);
+        bool DeleteCart(string userName);
 
 
     }

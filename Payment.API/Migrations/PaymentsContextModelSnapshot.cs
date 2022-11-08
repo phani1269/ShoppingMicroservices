@@ -44,7 +44,7 @@ namespace Payment.API.Migrations
 
             modelBuilder.Entity("Payment.API.Models.Payments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -70,7 +70,10 @@ namespace Payment.API.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("orderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("PaymentMethodId");
 

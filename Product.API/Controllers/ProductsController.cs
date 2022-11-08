@@ -40,11 +40,35 @@ namespace Product.API.Controllers
             return Ok(_productRepository.GetProduct(id));
         }
         [HttpGet]
-        [Route("GetProductsByCategory")]
+        [Route("GetProducts/{category}/{subcategory}")]
         public IActionResult GetProducts(string category, string subcategory)
         {
             return Ok(_productRepository.GetProducts(category,subcategory));
         }
 
+        [HttpPost]
+        [Route("UpdateProductQuantity/{productId}/{orderedQuantity}")]
+        public IActionResult UpdateProductQuantity(int productId, int orderedQuantity)
+        {
+            return Ok(_productRepository.UpdateProductQuantity(productId,orderedQuantity));
+        }
+        [HttpPost]
+        [Route("AddProductQuantity/{productId}/{orderedQuantity}")]
+        public IActionResult AddProductQuantity(int productId, int orderedQuantity)
+        {
+            return Ok(_productRepository.AddProductQuantity(productId, orderedQuantity));
+        }
+        [HttpGet]
+        [Route("GetProductsByOfferId")]
+        public IActionResult GetOffersByProductName(int offerId)
+        {
+            return Ok(_productRepository.GetProductsByOfferId(offerId));
+        }
+        [HttpGet]
+        [Route("GetOffersByProductName/{productName}")]
+        public IActionResult GetOffersByProductName(string productName)
+        {
+            return Ok(_productRepository.GetOffersByProductName(productName));
+        }
     }
 }

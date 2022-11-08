@@ -45,10 +45,27 @@ namespace TokenBasedUserAPI.Controllers
             {
 
                 Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+                CreatedAt = DateTime.UtcNow.ToString("dd MMMM yyyy hh mm ss"),
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                Address = model.Address
             };
+
+            
+
             var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+            }
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
 
             if (!result.Succeeded)
             {
@@ -67,18 +84,26 @@ namespace TokenBasedUserAPI.Controllers
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            //var user = await _userManager.FindByNameAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRole = await _userManager.GetRolesAsync(user);
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,user.UserName),
+                    new Claim("userName",user.UserName),
+                    new Claim("id", user.Id.ToString()),
+                    new Claim("firstName", user.FirstName),
+                    new Claim("lastName", user.LastName),
+                    new Claim("address", user.Address),
+                    new Claim("mobile", user.PhoneNumber),
+                    new Claim("email", user.Email),
+                    new Claim("createdAt",user.CreatedAt),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 };
                 foreach (var userrolw in userRole)
                 {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userrolw));
+                    authClaims.Add(new Claim("Role", userrolw));
                 }
                 var authSignKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Sign"]));
                 var token = new JwtSecurityToken(
@@ -113,8 +138,12 @@ namespace TokenBasedUserAPI.Controllers
             {
 
                 Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName
+                CreatedAt = DateTime.UtcNow.ToString("dd MMMM yyyy hh mm ss"),
+                UserName = model.UserName,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber=model.PhoneNumber,
+                Address = model.Address
             };
             var result = await _userManager.CreateAsync(user, model.Password);
 

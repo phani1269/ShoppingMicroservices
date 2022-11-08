@@ -13,6 +13,7 @@ namespace Product.API.Models
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
+        public int OfferId { get; set; }
         //public Offer Offer { get; set; } = new Offer();
         public double Price { get; set; }
         public int Quantity { get; set; }

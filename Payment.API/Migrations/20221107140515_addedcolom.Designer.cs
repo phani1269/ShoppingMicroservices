@@ -9,8 +9,8 @@ using Payment.API.Context;
 namespace Payment.API.Migrations
 {
     [DbContext(typeof(PaymentsContext))]
-    [Migration("20221028024913_Paymentcontext")]
-    partial class Paymentcontext
+    [Migration("20221107140515_addedcolom")]
+    partial class addedcolom
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -46,7 +46,7 @@ namespace Payment.API.Migrations
 
             modelBuilder.Entity("Payment.API.Models.Payments", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -72,7 +72,10 @@ namespace Payment.API.Migrations
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("orderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PaymentId");
 
                     b.HasIndex("PaymentMethodId");
 

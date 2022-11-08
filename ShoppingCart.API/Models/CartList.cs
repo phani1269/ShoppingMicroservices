@@ -12,8 +12,20 @@ namespace ShoppingCart.API.Models
         public int CartId { get; set; }
         public string UserName { get; set; }
         public bool Ordered { get; set; } = false;
-        public string OrderedOn { get; set; } = DateTime.UtcNow.ToString("dd MMMM yyyy hh mm ss");
-        public virtual ICollection<CartItems> CartItems { get; set; }
+        public string CreatedOn { get; set; } 
+        public List<CartItems> Items { get; set; } = new List<CartItems>();
 
+        public decimal TotalPrice
+        {
+            get
+            {
+                decimal totalprice = 0;
+                foreach (var item in Items)
+                {
+                    totalprice += item.Price * item.Quantity;
+                }
+                return totalprice;
+            }
+        }
     }
 }

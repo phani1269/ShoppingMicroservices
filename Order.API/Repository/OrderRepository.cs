@@ -31,7 +31,7 @@ namespace Order.API.Repository
                             CreatedAt = a.CreatedAt,
                             Email = a.Email,
                             MobileNumber = a.MobileNumber,
-                            PaymentId = a.PaymentId,
+                            PaymentConfirmation = a.PaymentConfirmation,
                             ProductName = b.ProductName,
                             Quantity = b.Quantity,
                             TotalPrice = b.TotalPrice
@@ -39,11 +39,21 @@ namespace Order.API.Repository
             return list;
         }
 
-        public bool InsertOrder(OrderDetails orderDetails)
+        public OrderDetails InsertOrder(OrderDetails orderDetails)
         {
             try
             {
-                _orderContext.orderDetails.Add(orderDetails);
+                orderDetails  = new OrderDetails
+                {
+                    Address = orderDetails.Address,
+                    CreatedAt = DateTime.UtcNow.ToString("dd/MMMM/yyyy hh:mm:ss"),
+                    Email = orderDetails.Email,
+                    MobileNumber = orderDetails.Email,
+                    Name = orderDetails.Name,
+                    PaymentConfirmation = false,
+                    UserName = orderDetails.UserName
+                };
+                 _orderContext.orderDetails.Add(orderDetails);
                 _orderContext.SaveChanges();
             }
             catch (Exception)
@@ -52,13 +62,14 @@ namespace Order.API.Repository
                 throw;
             }
             
-            return true;
+            return SelectOrderId(orderDetails.UserName,orderDetails.CreatedAt);
         }
 
         public bool InsertOrderdItems(OrderedItems orderedItems)
         {
             try
             {
+
                 _orderContext.OrderedItems.Add(orderedItems);
                 _orderContext.SaveChanges();
             }
@@ -67,8 +78,24 @@ namespace Order.API.Repository
 
                 throw;
             }
-            
             return true;
+        }
+        public OrderDetails UpdateOrder(string userName,string orderedDate)
+        {
+            var order = _orderContext.orderDetails
+                            .Where(x => x.UserName == userName && x.CreatedAt == orderedDate).ToList();
+            foreach (var item in order)
+            {
+                item.PaymentConfirmation = true;
+            }
+            _orderContext.SaveChanges();
+
+            return SelectOrderId(userName,orderedDate);
+        }
+        private OrderDetails SelectOrderId(string username,string date)
+        {
+            var order = _orderContext.orderDetails.Where(x => x.UserName == username && x.CreatedAt == date).SingleOrDefault();
+            return order;
         }
     }
 }

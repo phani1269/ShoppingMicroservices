@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32901.82
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AngularAuthAPI", "AngularAuthAPI\AngularAuthAPI.csproj", "{7D2030E9-F6FE-4A06-9C92-0346BA4D933C}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AFED6997-36EF-4A8A-85C7-6BBA5EAE8D29}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenBasedUserAPI", "TokenBasedUserAPI\TokenBasedUserAPI.csproj", "{7EC6A890-C85E-4062-BE66-0A5BD557B5E5}"
@@ -17,7 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.API", "Order.API\Orde
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Payment.API\Payment.API.csproj", "{C8F9E7AA-BC1F-4FDA-8D26-0EDF09B79C31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reviews.API", "Reviews.API\Reviews.API.csproj", "{DF3F684B-3269-4F24-8B48-18931310049C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reviews.API", "Reviews.API\Reviews.API.csproj", "{DF3F684B-3269-4F24-8B48-18931310049C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CouponService", "CouponService\CouponService.csproj", "{163E0937-FFA5-4B1F-AA3F-0A9E720D2357}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIGateway", "APIGateway", "{2879E0F0-3189-4132-963B-68CF9765447D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.APIGateway", "APIGateway\Ocelot.APIGateway\Ocelot.APIGateway.csproj", "{67B58997-FD6C-499B-8C9C-B5654F7FDE5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{EE88F473-5E83-49E7-A9DE-DB7AE7E4BED4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7D2030E9-F6FE-4A06-9C92-0346BA4D933C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D2030E9-F6FE-4A06-9C92-0346BA4D933C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D2030E9-F6FE-4A06-9C92-0346BA4D933C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D2030E9-F6FE-4A06-9C92-0346BA4D933C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AFED6997-36EF-4A8A-85C7-6BBA5EAE8D29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AFED6997-36EF-4A8A-85C7-6BBA5EAE8D29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFED6997-36EF-4A8A-85C7-6BBA5EAE8D29}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,9 +59,20 @@ Global
 		{DF3F684B-3269-4F24-8B48-18931310049C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF3F684B-3269-4F24-8B48-18931310049C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF3F684B-3269-4F24-8B48-18931310049C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{163E0937-FFA5-4B1F-AA3F-0A9E720D2357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{163E0937-FFA5-4B1F-AA3F-0A9E720D2357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{163E0937-FFA5-4B1F-AA3F-0A9E720D2357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{163E0937-FFA5-4B1F-AA3F-0A9E720D2357}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E} = {2879E0F0-3189-4132-963B-68CF9765447D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DE2ACE9-7045-4B2E-A7D8-7501000D40FB}

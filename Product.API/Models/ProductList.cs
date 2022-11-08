@@ -9,10 +9,12 @@ namespace Product.API.Models
     public class ProductList
     {
         [Key]
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int CategoryId { get; set; }
+
+        public int OfferId { get; set; }
 
         //public Offer Offer { get; set; } = new Offer();
         public double Price { get; set; }

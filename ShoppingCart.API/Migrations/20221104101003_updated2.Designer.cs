@@ -10,8 +10,8 @@ using ShoppingCart.API.Context;
 namespace ShoppingCart.API.Migrations
 {
     [DbContext(typeof(CartContext))]
-    [Migration("20221028025451_ordercontext")]
-    partial class ordercontext
+    [Migration("20221104101003_updated2")]
+    partial class updated2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,15 +31,24 @@ namespace ShoppingCart.API.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CartListobjCartId")
+                    b.Property<int?>("CartListCartId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("CartItemId");
 
-                    b.HasIndex("CartListobjCartId");
+                    b.HasIndex("CartListCartId");
 
                     b.ToTable("cartItems");
                 });
@@ -51,11 +60,11 @@ namespace ShoppingCart.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CreatedOn")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("Ordered")
                         .HasColumnType("bit");
-
-                    b.Property<string>("OrderedOn")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -65,45 +74,16 @@ namespace ShoppingCart.API.Migrations
                     b.ToTable("cartLists");
                 });
 
-            modelBuilder.Entity("ShoppingCart.API.Models.joinclass", b =>
-                {
-                    b.Property<int>("CartId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CartItemId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Ordered")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OrderedOn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CartId");
-
-                    b.ToTable("joins");
-                });
-
             modelBuilder.Entity("ShoppingCart.API.Models.CartItems", b =>
                 {
-                    b.HasOne("ShoppingCart.API.Models.CartList", "CartListobj")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartListobjCartId");
-
-                    b.Navigation("CartListobj");
+                    b.HasOne("ShoppingCart.API.Models.CartList", null)
+                        .WithMany("Items")
+                        .HasForeignKey("CartListCartId");
                 });
 
             modelBuilder.Entity("ShoppingCart.API.Models.CartList", b =>
                 {
-                    b.Navigation("CartItems");
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

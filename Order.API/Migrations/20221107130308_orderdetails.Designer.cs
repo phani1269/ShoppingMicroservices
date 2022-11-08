@@ -10,8 +10,8 @@ using Order.API.Context;
 namespace Order.API.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20221028052301_ordercontext")]
-    partial class ordercontext
+    [Migration("20221107130308_orderdetails")]
+    partial class orderdetails
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,8 +43,8 @@ namespace Order.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentId")
-                        .HasColumnType("int");
+                    b.Property<bool>("PaymentConfirmation")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");

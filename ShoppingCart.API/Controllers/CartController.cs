@@ -20,30 +20,25 @@ namespace ShoppingCart.API.Controllers
             _cartRepository = cartRepository;
         }
 
-        [HttpGet]
-        [Route("GetCartDetails")]
-        public IActionResult GetCartDetails(int cartId)
-        {
-          // HttpContext.User.FindFirst("");
-          return Ok( _cartRepository.GetCart(cartId));
-        }
+
         [HttpPost]
-        [Route("InsertCart")]
-        public IActionResult InsertCart(CartList model, int productId)
+        [Route("AddToCart/{userName}/{productId}")]
+        public IActionResult AddCart(CartItems model, string userName, int productId)
         {
-           return Ok( _cartRepository.InsertCartItem(model, productId));
+            return Ok(_cartRepository.AddCartItem( userName, model,productId));
         }
+        
         [HttpGet]
-        [Route("GetAllPreviousCartsOfUser/{userName}")]
+        [Route("GetCartsOfUser/{userName}")]
         public IActionResult GetAllPreviousCartsOfUser(string userName)
         {
-            return Ok(_cartRepository.GetAllPreviousCartsOfUser(userName));
+            return Ok(_cartRepository.GetCartByUsername(userName));
         }
         [HttpDelete]
-        [Route("DeleteCart")]
-        public IActionResult DeleteCart(int cartId)
+        [Route("DeleteCart/{userName}")]
+        public IActionResult DeleteCart(string userName)
         {
-            return Ok(_cartRepository.DeleteCart(cartId));
+            return Ok(_cartRepository.DeleteCart(userName));
         }
 
     }

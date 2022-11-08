@@ -44,5 +44,11 @@ namespace Payment.API.Controllers
         {
             return Ok(_paymentRepository.InsertPayment(paymentMethod));
         }
+        [HttpGet]
+        [Route("GetOrderedPayment/{username}/{orderId}")]
+        public IActionResult GetOrderedPayment(string username, int orderId)
+        {
+            return Ok(_paymentRepository.GetOrderdPayment(username, orderId));
+        }
     }
 }

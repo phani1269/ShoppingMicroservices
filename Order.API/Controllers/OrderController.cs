@@ -40,5 +40,13 @@ namespace Order.API.Controllers
             var res = _orderRepository.InsertOrderdItems(orderDetails);
             return Ok(res);
         }
+
+        [HttpPut]
+        [Route("UpdateOrder/{username}")]
+        public IActionResult UpdateOrder(string username,string date)
+        {
+            var details = _orderRepository.UpdateOrder(username,date);
+            return Ok(details);
+        }
     }
 }

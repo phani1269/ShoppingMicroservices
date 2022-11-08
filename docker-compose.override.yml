@@ -10,7 +10,7 @@ services:
 
     restart: always
     ports:
-        - "1433:1433"    
+        - "1438:1433"    
     volumes:
       - sqlvolume:/var/opt/mssql/data
 
@@ -26,15 +26,7 @@ services:
     volumes:
       - JWTvolume:/var/opt/mssql/data
 
-  angularauthapi:
-    container_name: angularauthapi
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=ApiDb; User Id= SA ;Password= SwN12345678"
-    depends_on:
-      - apidb
-    ports:
-      - "8011:80"
+
 
   tokenbaseduserapi:
     container_name: tokenbaseduserapi
@@ -68,11 +60,11 @@ services:
     ports:
       - "8014:80"
 
-  payment.api:
-    container_name: payment.api
+  couponservice:
+    container_name: couponservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=PaymentDb; User Id= SA ;Password= SwN12345678"
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=CouponDb; User Id= SA ;Password= SwN12345678"
     depends_on:
       - apidb
     ports:
@@ -87,3 +79,37 @@ services:
       - apidb
     ports:
       - "8016:80"
+
+  payment.api:
+    container_name: payment.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=PaymentDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8017:80"
+
+  reviews.api:
+    container_name: reviews.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=ReviewsDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8018:80"
+
+  ocelot.apigateway:
+    container_name: ocelot.apigateway
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - product.api
+      - shoppingcart.api
+      - couponservice
+      - order.api
+      - payment.api
+      - reviews.api
+    ports:
+      - "8020:80"
