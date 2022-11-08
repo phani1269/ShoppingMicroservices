@@ -45,10 +45,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=ProductDb; User Id= SA ;Password= SwN12345678"
+      - "GrpcSettings:DiscountUrl= http://product.grpcservice"
     depends_on:
       - apidb
     ports:
       - "8013:80"
+
 
   shoppingcart.api:
     container_name: shoppingcart.api
@@ -70,6 +72,16 @@ services:
     ports:
       - "8015:80"
 
+  product.grpcservice:
+    container_name: product.grpcservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:SqlServerConnstr= Server=apidb;Database=ProductDb; User Id= SA ;Password= SwN12345678"
+      - "ConnectionStrings:SqlServerConnstr1= Server=apidb;Database=CouponDb; User Id= SA ;Password= SwN12345678"
+    depends_on:
+      - apidb
+    ports:
+      - "8019:80"
 
   order.api:
     container_name: order.api
@@ -114,5 +126,8 @@ services:
       - reviews.api
     ports:
       - "8020:80"
+
+
+
 
 

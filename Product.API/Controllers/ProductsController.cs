@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Product.API.GRPCService;
+using Product.API.Models;
 using Product.API.Repository;
 using System;
 using System.Collections.Generic;
@@ -14,10 +17,14 @@ namespace Product.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductRepository _productRepository;
+        private readonly ProductGRPCService _productGRPCService;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, ProductGRPCService productGRPCService, IMapper mapper)
         {
             _productRepository = productRepository;
+            _productGRPCService = productGRPCService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -43,7 +50,32 @@ namespace Product.API.Controllers
         [Route("GetProducts/{category}/{subcategory}")]
         public IActionResult GetProducts(string category, string subcategory)
         {
-            return Ok(_productRepository.GetProducts(category,subcategory));
+            var products = _productRepository.GetProducts(category, subcategory);
+
+            var productList = new List<ProductClass>();
+
+            foreach (var item in products)
+            {
+                var cat = _productGRPCService.GetCategories(item.CategoryId);
+                var offerDetails = _productGRPCService.GetOffers(item.OfferId);
+                var discount = _mapper.Map<Offer>(offerDetails);
+                var data = new ProductClass
+                {
+                    ProductId = item.ProductId,
+                    Description= item.Description,
+                    ImageName = item.ImageName,
+                    Price = item.Price- (Convert.ToDouble(offerDetails.Discount)/100)*item.Price,
+                    Quantity = item.Quantity,
+                    Title = item.Title,
+                    productCategory = _mapper.Map<ProductCategory>(cat),
+                    productOffer = discount
+                };
+
+
+                productList.Add(data);
+               
+            }
+            return Ok(productList);
         }
 
         [HttpPost]

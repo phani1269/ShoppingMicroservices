@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option csharp_namespace = "Product.GrpcService.Protos";
+
+service ProductProtoService{
+
+	rpc GetProductCategories (GetCategoryRequest) returns (CategoryResponse);
+	rpc GetProductOffer (GetOfferRequest) returns (OfferResponse);
+}
+
+message GetCategoryRequest{
+	int32 categoryId = 1;
+}
+
+message CategoryResponse{
+	int32 categoryId = 1;
+	string category = 2;
+	string subCategory = 3;
+}
+
+message GetOfferRequest{
+	int32 offerId = 1;
+}
+
+message OfferResponse{
+	int32 offerId = 1;
+	string title = 2;
+	int32 discount = 3;
+}

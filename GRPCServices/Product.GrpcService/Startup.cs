@@ -1,23 +1,19 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Product.API.Context;
-using Product.API.GRPCService;
-using Product.API.Repository;
-using Product.GrpcService.Protos;
+using Product.GrpcService.Context;
+using Product.GrpcService.Repository;
+using Product.GrpcService.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Product.API
+namespace Product.GrpcService
 {
     public class Startup
     {
@@ -29,28 +25,25 @@ namespace Product.API
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddGrpc();
             services.AddDbContext<ProductContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnstr"),
                     providerOptions => providerOptions.EnableRetryOnFailure());
-
+            });
+            services.AddDbContext<CouponContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnstr1"),
+                    providerOptions => providerOptions.EnableRetryOnFailure());
             });
 
             services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddGrpcClient<ProductProtoService.ProductProtoServiceClient>
-               (o => o.Address = new Uri(Configuration["GrpcSettings:DiscountUrl"]));
+            services.AddScoped<ICouponRepository, CouponRepository>();
 
-            services.AddScoped<ProductGRPCService>();
             services.AddAutoMapper(typeof(Startup));
-
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Product.API", Version = "v1" });
-            });
 
         }
 
@@ -60,21 +53,18 @@ namespace Product.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product.API v1"));
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
-          //  app.UseAuthentication();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapGrpcService<ProductService>();
+
+                endpoints.MapGet("/", async context =>
+                {
+                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+                });
             });
         }
     }

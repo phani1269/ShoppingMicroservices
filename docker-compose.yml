@@ -46,6 +46,11 @@ services:
       context: .
       dockerfile: CouponService.API/Dockerfile
 
+  product.grpcservice:
+    image: ${DOCKER_REGISTRY-}productgrpcservice
+    build:
+      context: .
+      dockerfile: GRPCServices/Product.GrpcService/Dockerfile
 
   reviews.api:
     image: ${DOCKER_REGISTRY-}reviewsapi
@@ -59,11 +64,10 @@ services:
       context: .
       dockerfile: APIGateway/Ocelot.APIGateway/Dockerfile
 
-
-
 volumes:
   sqlvolume:
   JWTvolume:
+
 
 
 

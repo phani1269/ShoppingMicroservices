@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ocelot.APIGateway", "APIGat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CouponService.API", "CouponService.API\CouponService.API.csproj", "{C92D1849-301D-4710-8E32-B9537EC43109}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GRPCServices", "GRPCServices", "{C1316146-3724-414D-85FC-E12566E2A192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.GrpcService", "GRPCServices\Product.GrpcService\Product.GrpcService.csproj", "{7F0A81A1-47F2-4D19-820E-169DA03E9B92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,12 +69,17 @@ Global
 		{C92D1849-301D-4710-8E32-B9537EC43109}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C92D1849-301D-4710-8E32-B9537EC43109}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C92D1849-301D-4710-8E32-B9537EC43109}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F0A81A1-47F2-4D19-820E-169DA03E9B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F0A81A1-47F2-4D19-820E-169DA03E9B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F0A81A1-47F2-4D19-820E-169DA03E9B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F0A81A1-47F2-4D19-820E-169DA03E9B92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{67B58997-FD6C-499B-8C9C-B5654F7FDE5E} = {2879E0F0-3189-4132-963B-68CF9765447D}
+		{7F0A81A1-47F2-4D19-820E-169DA03E9B92} = {C1316146-3724-414D-85FC-E12566E2A192}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DE2ACE9-7045-4B2E-A7D8-7501000D40FB}
